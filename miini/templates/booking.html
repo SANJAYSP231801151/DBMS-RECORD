@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Train</title>
+    <style>
+        /* CSS Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        input[type="number"] {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Book Train - {{ train.train_name }}</h2>
+        <p>Available Seats: {{ train.seat_capacity }}</p>
+        <form action="{{ url_for('book_train', train_id=train.train_id) }}" method="POST" onsubmit="return validateBookingForm()">
+            <input type="number" name="seats" id="seats" placeholder="Number of Seats" required min="1" max="{{ train.seat_capacity }}">
+            <button type="submit">Confirm Booking</button>
+        </form>
+    </div>
+    <script>
+        // JavaScript to validate the booking form
+        function validateBookingForm() {
+            const seats = parseInt(document.getElementById('seats').value, 10);
+            const maxSeats = parseInt("{{ train.seat_capacity }}", 10);
+            if (seats < 1 || seats > maxSeats) {
+                alert(`Please enter a number of seats between 1 and ${maxSeats}.`);
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
